@@ -1,6 +1,16 @@
+import { fork } from "child_process"
+import { join } from "path";
+
+import { getPaths } from "../helpers/index.js";
+import { stderr, stdin, stdout } from "process";
+
+const { __dirname } = getPaths(import.meta.url);
+
 const spawnChildProcess = async (args) => {
-    // Write your code here
+    const path = join(__dirname, "files", "script.js");
+    fork(path, args, { 
+        stdio: { stdin, stdout, stderr }
+    });
 };
 
-// Put your arguments in function call to test this functionality
-spawnChildProcess( /* [someArgument1, someArgument2, ...] */);
+spawnChildProcess(process.argv.slice(2));
